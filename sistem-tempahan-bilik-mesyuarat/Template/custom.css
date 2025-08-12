@@ -1,0 +1,192 @@
+/*********************
+Table Calendar
+*********************/
+.calendarlink {
+	margin:0;
+	display:block;
+	width:110px;
+}
+.calendarlink li{
+	list-style: none;
+	margin-left:-18px;
+}
+.calendarlink li a{
+	padding:2px;
+	margin:0;
+	display:block;
+	width:100%;
+	font-size:11px;
+	color:#3300FF;
+	border-bottom:1px solid #FAE3DE;
+	background-color:#FDF4F2;
+	margin:1px;
+}
+.calendarlink li a:hover{
+	border-bottom:1px solid #F3F0B1;
+	background-color:#FAF5DE;
+}
+
+table { 
+	border-collapse: collapse; border-spacing: 0; 
+	border-bottom:1px solid #eee;
+	width:100%;
+	margin-top:15px;
+}
+th {
+	border-top:1px solid #eee;
+	padding:7px;
+	background-color: #F7F7F7;
+	font-weight:bold;
+	text-align:center;
+}
+td {
+	border-top:1px solid #eee;
+	vertical-align:top;
+	padding:7px;
+}
+
+.highlight{
+	color:#003366;
+	font-weight:bold;
+}
+
+.field{
+	/*width:70px;*/
+	width:120px;
+	height:120px;
+	color:#999;
+	margin:0;
+	padding:0;
+}
+.field a{
+	display:block;
+	border-bottom:1px solid #eaeaea;
+	background-color: #F7F7F7;
+	margin:0;
+	padding:2px;
+}
+.menubox{
+	margin:10px 0;
+}
+
+.menubox a{
+	background-color:#5B7CBF;
+	padding:5px 10px;
+	color:#FFFFFF;
+	border:#999;
+}
+
+.notes{
+	padding:10px;
+	display:block;
+	color:#003399;
+}
+
+.error{
+	color:#FF0000;
+}
+/*
+pagination
+*/
+
+.pagination {
+	margin:5px 0;
+	display:block;
+	text-align:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	padding:5px;
+}
+
+.pagination a:link, .pagination a:visited{
+	padding:7px;
+	padding-top:2px;
+	padding-bottom:2px;
+	border:1px solid #EBEBEB;
+	margin-left:2px;
+	text-decoration:none;
+	background-color:#F5F5F5;
+	color:#0072bc;
+	width:22px;
+	font-weight:normal;
+}
+
+.pagination a:hover {
+	background-color:#DDEEFF;
+	border:1px solid #BBDDFF;
+	color:#0072BC;	
+}
+
+.pagination strong {
+	padding:7px;
+	padding-top:2px;
+	padding-bottom:2px;
+	border:1px solid #BBDDFF;
+	margin-left:2px;
+	text-decoration:none;
+	background-color:#DDEEFF;
+	color:#0072BC;
+	cursor:default;
+}
+
+/*.pagination .disabled_tnt_pagination {
+	padding:7px;
+	padding-top:2px;
+	padding-bottom:2px;
+	border:1px solid #EBEBEB;
+	margin-left:10px;
+	text-decoration:none;
+	background-color:#F5F5F5;
+	color:#D7D7D7;
+	cursor:default;
+}*/
+
+/*
+Surat
+*/
+.surat th {
+	border-top:0;
+	padding:5px;
+	background-color: #F7F7F7;
+	font-weight:bold;
+	text-align:center;
+}
+.surat td {
+	border-top:0;
+	vertical-align:top;
+	padding:5px;
+}
+.surat, .surat table { 
+	border-collapse: collapse; 
+	border-spacing: 0; 
+	width:98%;
+	border:0;
+}
+.surat .header{
+	border:1px solid #000;
+}
+.surat h3{
+	color:#000;
+}
+.surat .url{
+	border-top:1px solid #000;
+}
+.surat .sah{
+	border-bottom:1px solid #000;
+}
+.surat .logo{
+	border-right:1px solid #000;
+	padding:15px;
+}
+.surat .tempahan{
+	border:1px dotted #000;;
+	margin:0;
+}
+.surat .tempahan th{
+	background-color:#fff;
+	border-bottom:1px dotted #000;
+}
+.surat .tempahan td{
+	border-bottom:1px dotted #000;
+}

@@ -1,0 +1,28 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+
+# Logs and temp
+*.log
+*.tmp
+*.bak
+*.old
+
+# Environment/config
+.env
+.env.local
+
+# Composer
+/vendor/
+
+# Node modules (in case frontend stuff is added later)
+/node_modules/
+
+# Cache
+cache/
+tmp/

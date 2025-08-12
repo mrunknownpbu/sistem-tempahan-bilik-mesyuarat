@@ -1,84 +1,65 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?php
+require_once __DIR__ . '/../init.php';
+require_role('admin');
+require_once __DIR__ . '/connection1.php';
+?>
+<!DOCTYPE html>
+<html lang="ms">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="../Template/style.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="../Template/custom.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="../Template/timePicker.css" media="screen" />
-<link rel="stylesheet" href="../Template/jquery-ui-1.7.custom.css" type="text/css" />
-<script type="text/javascript" src="../jquery/jquery.js"></script>
-<script type="text/javascript" src="../jquery/jquery.ui.core.js"></script>
-<script type="text/javascript" src="../jquery/jquery.ui.datepicker.js"></script>
-<script type="text/javascript" src="../jquery/jquery.timepicker.js"></script>
-<script type="text/javascript" src="../jquery/jquery.charcounter.js"></script>
-<title>SISTEM TEMPAHAN BILIK MESYUARAT</title>
-<script>var delay = null; currDisplay = null;function layerout(obj, bgid){var element= document.getElementById(bgid);if(element!=currDisplay){if (currDisplay) { currDisplay.style.cssText+=";display:none;"; }} clearTimeout(delay);var x,y;oRect=obj.getBoundingClientRect();x= oRect.left;y= oRect.bottom;h=obj.offsetHeight;sh = 0;sh=Math.max(document.documentElement.scrollTop, document.body.scrollTop);delay= window.setTimeout(function(){element.style.cssText+=";display:block;left:"+x+"px;top:"+(y+sh+5)+"px;";},800)}function layerin(obj,e,bgid) {clearTimeout(delay); var element = document.getElementById(bgid);currDisplay = element;if (e.currentTarget){if (e.relatedTarget != obj){if (obj != e.relatedTarget.parentNode){delay = window.setTimeout(function(){element.style.cssText+=";display:none;";}, 500);}}} else {if (e.toElement != obj){if (obj != e.toElement.parentNode) {delay = window.setTimeout(function(){element.style.cssText+=";display:none;";}, 500);}}}};function MyClose(divId){clearTimeout(delay);var element = document.getElementById(divId);element.style.cssText+=";display:none;"};</script><style type="text/css">
-:root #header + #content > #left > #rlblock_left
-{ display: none !important; }</style></head>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Senarai Tempahan (Admin)</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
-
 <body>
-<div id="header">
-        <div class="sleeve">
-            <img src="../Image/logoPDTbatugajah.png" width="500" height="81" />
-            <small>
-                <a href="index.html">Sistem Tempahan Bilik Mesyuarat </a>
-            </small>
-            <div class="navbar">
-            	<span class="current"><a href="../admin.php">Laman Utama</a></span>
-				<span><a href="#">Kalendar</a></span>
-				<span><a href="#">Tempahan</a></span>
-                <span>
-                <li><a href="admin/admin_display_user.php">Papar Pengguna</a></li>
-                <li><a href="admin/adduser.html">Daftar Baru</a></li>
-                </span>
-            </div>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="../admin.php">Sistem Tempahan</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="../admin.php">Laman Utama</a></li>
+        <li class="nav-item"><a class="nav-link active" href="admin_display_booking.php">Senarai Tempahan</a></li>
+        <li class="nav-item"><a class="nav-link" href="admin_display_user.php">Papar Pengguna</a></li>
+        <li class="nav-item"><a class="nav-link" href="adduser.php">Daftar Baru</a></li>
+      </ul>
+      <a class="btn btn-outline-light" href="../logout.php">Log Keluar</a>
     </div>
-    
-    <div id="wrapper">
-    <div class="sleeve_main">
-            <div id="main">
-            
-            <form action="admin.php" method="post" id="loginform">
-
-
-
-<h3>Senarai User</h3>
-	<table width="620" border="1">
-    <tr bgcolor="#00cc66">
-    	<th width="58">Unit</th>
-    	<th width="58">Nama Mesyuarat</th>
-        <th width="188">Tarikh</th>
-        <th width="147">Tempat Mesyuarat</th>
-        <th width="99">Jumlah Ahli Mesyuarat</th>
-        <th width="58">Tempahan Makanan</th>
+  </div>
+</nav>
+<main class="container py-4">
+  <h3 class="mb-3">Senarai Tempahan</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">Unit</th>
+          <th scope="col">Nama Mesyuarat</th>
+          <th scope="col">Tarikh</th>
+          <th scope="col">Tempat Mesyuarat</th>
+          <th scope="col">Jumlah Ahli Mesyuarat</th>
+          <th scope="col">Tempahan Makanan</th>
         </tr>
-        
-        <?php
-        include("connection1.php");
-        $query="SELECT*FROM booking";
-        $result=mysqli_query($link,$query) or die ("Select Error".mysqli_error($link));
-        while($row=mysqli_fetch_array($result)){
-        ?>
-        
-        
-     <tr>
-     	<td><?php echo $row['unit']; ?>&nbsp;</td>
-        <td><?php echo $row['name'];?>&nbsp;</td>
-        <td><?php echo $row['date'];?>&nbsp;</td>
-        <td><?php echo $row['place'];?>&nbsp;</td>
-        <td><?php echo $row['member'];?>&nbsp;</td>
-        <td><?php echo $row['foodorder'];?>&nbsp;</td>
-        </tr>
-        
-        <?php
-            }
-            mysqli_close($link);
-        ?>
-        
-        
-<table>
-    <input type="submit" value="Home Page" />
-    </form>
+      </thead>
+      <tbody>
+      <?php
+        $query = 'SELECT unit, name, date, place, member, foodorder FROM booking ORDER BY date DESC';
+        $result = mysqli_query($link, $query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<tr>';
+            echo '<td>' . e($row['unit']) . '</td>';
+            echo '<td>' . e($row['name']) . '</td>';
+            echo '<td>' . e($row['date']) . '</td>';
+            echo '<td>' . e($row['place']) . '</td>';
+            echo '<td>' . e((string)$row['member']) . '</td>';
+            echo '<td>' . e($row['foodorder']) . '</td>';
+            echo '</tr>';
+        }
+        mysqli_close($link);
+      ?>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

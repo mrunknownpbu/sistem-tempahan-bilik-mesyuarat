@@ -1,89 +1,104 @@
-<?php session_start() ;
+<?php
+require_once __DIR__ . '/init.php';
+require_once __DIR__ . '/connection1.php';
 
-if(isset($_POST['Submit'])){
-	
-$username=trim($_POST['username']);
-$password=trim($_POST['password']);
+$loginError = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf_or_fail();
 
-if($username == "")
-$error="error: Please enter your username.";
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-elseif($password == "")
-$error="error: Please enter your password.";
+    if ($username === '' || $password === '') {
+        $loginError = 'Sila masukkan nama pengguna dan kata laluan.';
+    } else {
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        $stmt = mysqli_prepare($link, 'SELECT id, username, usertype, password FROM useracc WHERE username = ? LIMIT 1');
+        mysqli_stmt_bind_param($stmt, 's', $username);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $user = $result ? mysqli_fetch_assoc($result) : null;
 
-else
-{
-	include('connection1.php');
-	$row=mysqli_query($link,"SELECT * FROM useracc WHERE username='$username' and password ='$password'") or die ("Couldn't connect to database".mysqli_error($link));
-	
-if(mysqli_num_rows($row) >0){
-	while ($res=mysqli_fetch_assoc($row)){
-		$_SESSION['username']=$res['username'];
-		$_SESSION['user_type']=$res['usertype'];
-	}
-		if($_SESSION['user_type']== 'admin')
-		header("location:admin.php");
-		
-	if($_SESSION['user_type'] == 'user')
-		header("location:user.php");
+        if ($user) {
+            $stored = $user['password'];
+            $isValid = password_verify($password, $stored) || hash_equals($stored, $password);
+
+            if ($isValid) {
+                // Migrate legacy plaintext passwords to hashed
+                if (!password_needs_rehash($stored, PASSWORD_DEFAULT) && hash_equals($stored, $password)) {
+                    $newHash = password_hash($password, PASSWORD_DEFAULT);
+                    $upd = mysqli_prepare($link, 'UPDATE useracc SET password = ? WHERE id = ?');
+                    mysqli_stmt_bind_param($upd, 'si', $newHash, $user['id']);
+                    mysqli_stmt_execute($upd);
+                }
+
+                session_regenerate_id(true);
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['user_type'] = $user['usertype'];
+
+                if ($user['usertype'] === 'admin') {
+                    redirect_to('admin.php');
+                } else {
+                    redirect_to('user.php');
+                }
+            } else {
+                $loginError = 'Nama pengguna atau kata laluan tidak sah.';
+            }
+        } else {
+            $loginError = 'Nama pengguna atau kata laluan tidak sah.';
+        }
+    }
 }
-else {
-	$error='error: You are not registered to this website';
-}}} ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+?>
+<!DOCTYPE html>
+<html lang="ms">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="Template/style.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="Template/custom.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="Template/timePicker.css" media="screen" />
-<link rel="stylesheet" href="Template/jquery-ui-1.7.custom.css" type="text/css" />
-<script type="text/javascript" src="jquery/jquery.js"></script>
-<script type="text/javascript" src="jquery/jquery.ui.core.js"></script>
-<script type="text/javascript" src="jquery/jquery.ui.datepicker.js"></script>
-<script type="text/javascript" src="jquery/jquery.timepicker.js"></script>
-<script type="text/javascript" src="jquery/jquery.charcounter.js"></script>
-<title>SISTEM TEMPAHAN BILIK MESYUARAT</title>
-<script>var delay = null; currDisplay = null;function layerout(obj, bgid){var element= document.getElementById(bgid);if(element!=currDisplay){if (currDisplay) { currDisplay.style.cssText+=";display:none;"; }} clearTimeout(delay);var x,y;oRect=obj.getBoundingClientRect();x= oRect.left;y= oRect.bottom;h=obj.offsetHeight;sh = 0;sh=Math.max(document.documentElement.scrollTop, document.body.scrollTop);delay= window.setTimeout(function(){element.style.cssText+=";display:block;left:"+x+"px;top:"+(y+sh+5)+"px;";},800)}function layerin(obj,e,bgid) {clearTimeout(delay); var element = document.getElementById(bgid);currDisplay = element;if (e.currentTarget){if (e.relatedTarget != obj){if (obj != e.relatedTarget.parentNode){delay = window.setTimeout(function(){element.style.cssText+=";display:none;";}, 500);}}} else {if (e.toElement != obj){if (obj != e.toElement.parentNode) {delay = window.setTimeout(function(){element.style.cssText+=";display:none;";}, 500);}}}};function MyClose(divId){clearTimeout(delay);var element = document.getElementById(divId);element.style.cssText+=";display:none;"};</script><style type="text/css">
-:root #header + #content > #left > #rlblock_left
-{ display: none !important; }</style></head>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SISTEM TEMPAHAN BILIK MESYUARAT - Log Masuk</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="Template/custom.css" />
 </head>
-
-<body>
-<div id="header">
-        <div class="sleeve">
-            <img src="Image/logoPDTbatugajah.png" width="500" height="81" />
-            <small>
-                <a href="index.html">Sistem Tempahan Bilik Mesyuarat </a>
-            </small>
-<div class="navbar">
-            	<span><a href="index.html">Laman Utama</a></span>
-                <span><a href="#">Kalendar</a></span>
-                <span><a href="#">Tempahan</a></span>
-                <span class="current"><a href="login_page.php">Log Masuk</a></span>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Sistem Tempahan</a>
+    <div class="ms-auto">
+      <a class="btn btn-outline-light" href="login_page.php">Log Masuk</a>
+    </div>
+  </div>
+</nav>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <div class="text-center mb-3">
+            <img src="Image/logoPDTbatugajah.png" class="img-fluid" style="max-height:64px" alt="Logo" />
           </div>
-          
-          <div class="disabled" id="wrapper">
-    <div class="sleeve_main">
-            <div id="main">
-                <h2>Log Masuk </h2>
-<form action="login_page.php" method="post" id="loginform">
-			<p>
-			  <label>Username</label>
-              <input type="text" placeholder="" name="username" required>
-	    </p>
-			<p>
-              <label>Password</label>
-			  <input type="password" placeholder="" name="password" required>
-	    </p>
-			<button type="submit" name="Submit">Login</button>
-		</form>
-	</div>
-            
+          <h1 class="h4 text-center mb-4">Log Masuk</h1>
+          <?php if ($loginError): ?>
+            <div class="alert alert-danger" role="alert"><?php echo e($loginError); ?></div>
+          <?php endif; ?>
+          <form action="login_page.php" method="post" novalidate>
+            <input type="hidden" name="csrf_token" value="<?php echo e(csrf_token()); ?>" />
+            <div class="mb-3">
+              <label for="username" class="form-label">Nama Pengguna</label>
+              <input type="text" class="form-control" id="username" name="username" required />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Kata Laluan</label>
+              <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required />
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Log Masuk</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

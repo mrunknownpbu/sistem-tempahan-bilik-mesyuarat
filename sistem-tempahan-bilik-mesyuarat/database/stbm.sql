@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `useracc` (
 `id` int(40) NOT NULL,
   `usertype` varchar(6) NOT NULL,
   `username` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --

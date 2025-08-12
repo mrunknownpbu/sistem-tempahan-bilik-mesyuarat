@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/init.php';
+require_login('user');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -23,12 +27,13 @@
         <div class="sleeve">
             <img src="Image/logoPDTbatugajah.png" width="500" height="81" />
             <small>
-                <a href="index.html">Sistem Tempahan Bilik Mesyuarat </a>
+                <a href="index.php">Sistem Tempahan Bilik Mesyuarat </a>
             </small>
             <div class="navbar">
-            	<span class="current"><a href="user.php">Laman Utama</a></span>
-				<span><a href="#">Kalendar</a></span>
-				<span><a href="booking.html">Tempahan</a></span>
+                <span class="current"><a href="user.php">Laman Utama</a></span>
+                <span><a href="#">Kalendar</a></span>
+                <span><a href="user/booking.php">Tempahan</a></span>
+                <span style="float:right"><a href="logout.php">Log Keluar (<?php echo e($_SESSION['username']); ?>)</a></span>
             </div>
         </div>
     </div>
@@ -40,7 +45,7 @@
 <p>Selamat datang ke Sistem Tempahan Bilik Mesyuarat. Ia merupakan aplikasi 
 atas talian yang dibangunkan bertujuan memberi kemudahkan kepada 
 pihak PDT menguruskan tempahan bilik mesyuarat di bawah seliaan PDT.</p>
-	</div>
+    </div>
 </div>
     
 </body>

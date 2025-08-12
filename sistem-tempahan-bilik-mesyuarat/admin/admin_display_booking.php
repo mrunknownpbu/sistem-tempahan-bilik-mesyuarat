@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../init.php';
+require_once __DIR__ . '/connection1.php';
+require_login('admin');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -23,15 +28,15 @@
         <div class="sleeve">
             <img src="../Image/logoPDTbatugajah.png" width="500" height="81" />
             <small>
-                <a href="index.html">Sistem Tempahan Bilik Mesyuarat </a>
+                <a href="../index.php">Sistem Tempahan Bilik Mesyuarat </a>
             </small>
             <div class="navbar">
-            	<span class="current"><a href="../admin.php">Laman Utama</a></span>
-				<span><a href="#">Kalendar</a></span>
-				<span><a href="#">Tempahan</a></span>
+                <span class="current"><a href="../admin.php">Laman Utama</a></span>
+                <span><a href="#">Kalendar</a></span>
+                <span><a href="#">Tempahan</a></span>
                 <span>
-                <li><a href="admin/admin_display_user.php">Papar Pengguna</a></li>
-                <li><a href="admin/adduser.html">Daftar Baru</a></li>
+                <a href="admin_display_user.php">Papar Pengguna</a>
+                <a href="adduser.php">Daftar Baru</a>
                 </span>
             </div>
         </div>
@@ -45,32 +50,30 @@
 
 
 
-<h3>Senarai User</h3>
-	<table width="620" border="1">
+<h3>Senarai Tempahan</h3>
+    <table width="820" border="1">
     <tr bgcolor="#00cc66">
-    	<th width="58">Unit</th>
-    	<th width="58">Nama Mesyuarat</th>
-        <th width="188">Tarikh</th>
-        <th width="147">Tempat Mesyuarat</th>
-        <th width="99">Jumlah Ahli Mesyuarat</th>
-        <th width="58">Tempahan Makanan</th>
+        <th width="58">Unit</th>
+        <th width="180">Nama Mesyuarat</th>
+        <th width="120">Tarikh</th>
+        <th width="180">Tempat Mesyuarat</th>
+        <th width="120">Jumlah Ahli Mesyuarat</th>
+        <th width="120">Tempahan Makanan</th>
         </tr>
         
         <?php
-        include("connection1.php");
-        $query="SELECT*FROM booking";
-        $result=mysqli_query($link,$query) or die ("Select Error".mysqli_error($link));
-        while($row=mysqli_fetch_array($result)){
+        $query = 'SELECT unit, name, date, place, member, foodorder FROM booking ORDER BY date DESC';
+        $result = mysqli_query($link, $query) or die ('Select Error'.mysqli_error($link));
+        while ($row = mysqli_fetch_assoc($result)) {
         ?>
         
-        
      <tr>
-     	<td><?php echo $row['unit']; ?>&nbsp;</td>
-        <td><?php echo $row['name'];?>&nbsp;</td>
-        <td><?php echo $row['date'];?>&nbsp;</td>
-        <td><?php echo $row['place'];?>&nbsp;</td>
-        <td><?php echo $row['member'];?>&nbsp;</td>
-        <td><?php echo $row['foodorder'];?>&nbsp;</td>
+        <td><?php echo e($row['unit']); ?>&nbsp;</td>
+        <td><?php echo e($row['name']); ?>&nbsp;</td>
+        <td><?php echo e($row['date']); ?>&nbsp;</td>
+        <td><?php echo e($row['place']); ?>&nbsp;</td>
+        <td><?php echo e($row['member']); ?>&nbsp;</td>
+        <td><?php echo e($row['foodorder']); ?>&nbsp;</td>
         </tr>
         
         <?php
@@ -82,3 +85,8 @@
 <table>
     <input type="submit" value="Home Page" />
     </form>
+    </div>
+    </div>
+</div>
+</body>
+</html>

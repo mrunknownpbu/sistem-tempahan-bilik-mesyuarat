@@ -16,6 +16,12 @@ Thumbs.db
 # Environment/config
 .env
 .env.local
+.env.*
+.secrets/
+*.pem
+*.key
+id_rsa
+id_ed25519
 
 # Composer
 /vendor/

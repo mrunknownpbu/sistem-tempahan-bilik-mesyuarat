@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="Template/style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="Template/custom.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="Template/timePicker.css" media="screen" />
+<link rel="stylesheet" href="Template/jquery-ui-1.7.custom.css" type="text/css" />
+<script type="text/javascript" src="jquery/jquery.js"></script>
+<script type="text/javascript" src="jquery/jquery.ui.core.js"></script>
+<script type="text/javascript" src="jquery/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="jquery/jquery.timepicker.js"></script>
+<script type="text/javascript" src="jquery/jquery.charcounter.js"></script>
+<title>SISTEM TEMPAHAN BILIK MESYUARAT</title>
+<script>var delay = null; currDisplay = null;function layerout(obj, bgid){var element= document.getElementById(bgid);if(element!=currDisplay){if (currDisplay) { currDisplay.style.cssText+=";display:none;"; }} clearTimeout(delay);var x,y;oRect=obj.getBoundingClientRect();x= oRect.left;y= oRect.bottom;h=obj.offsetHeight;sh = 0;sh=Math.max(document.documentElement.scrollTop, document.body.scrollTop);delay= window.setTimeout(function(){element.style.cssText+=";display:block;left:"+x+"px;top:"+(y+sh+5)+"px;";},800)}function layerin(obj,e,bgid) {clearTimeout(delay); var element = document.getElementById(bgid);currDisplay = element;if (e.currentTarget){if (e.relatedTarget != obj){if (obj != e.relatedTarget.parentNode){delay = window.setTimeout(function(){element.style.cssText+=";display:none;";}, 500);}}} else {if (e.toElement != obj){if (obj != e.toElement.parentNode) {delay = window.setTimeout(function(){element.style.cssText+=";display:none;";}, 500);}}}};function MyClose(divId){clearTimeout(delay);var element = document.getElementById(divId);element.style.cssText+=";display:none;"};</script><style type="text/css">
+:root #header + #content > #left > #rlblock_left
+{ display: none !important; }</style>
+<script>/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+</head>
+
+</head>
+
+<body>
+<div id="header">
+        <div class="sleeve">
+            <img src="Image/logoPDTbatugajah.png" width="500" height="81" />
+            <small>
+                <a href="index.html">Sistem Tempahan Bilik Mesyuarat </a>
+            </small>
+            <div class="navbar" class="dropdown">
+            	<span class="current"><a href="index.html">Laman Utama</a></span>
+				<span><a href="#">Kalendar</a></span>
+				<span><button onclick="myFunction()" class="dropbtn">Tempahan</button>
+  				<div id="myDropdown" class="dropdown-content">
+                    <a href="admin/admin_display_user.php">Ubah Tempahan</a>
+                    <a href="admin/adduser.html">Kemaskini Tempahan</a>
+                </div>
+                </span>
+                <span>
+                <button onclick="myFunction()" class="dropbtn">Pengguna</button>
+  				<div id="myDropdown" class="dropdown-content">
+                    <a href="admin/admin_display_user.php">Papar Pengguna</a>
+                    <a href="admin/adduser.html">Daftar Baru</a>
+                </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div id="wrapper">
+    <div class="sleeve_main">
+            <div id="main">
+                <h2>Sistem Tempahan Bilik Mesyuarat </h2>
+<p>Selamat datang ke Sistem Tempahan Bilik Mesyuarat. Ia merupakan aplikasi 
+atas talian yang dibangunkan bertujuan memberi kemudahkan kepada 
+pihak PDT menguruskan tempahan bilik mesyuarat di bawah seliaan PDT.</p>
+	</div>
+</div>
+    
+</body>
+</html>
